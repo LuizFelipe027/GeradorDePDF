@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>"./pdf.js"</script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Pedido de Compras</title>
+    
+    <!-- <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
+    <!-- <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> -->
+    
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+       html { font-size: 12pt; }
+       
+
+          .folha { padding: 0.5em; }
+          .a4_vertical { width: 793px; height: 1122px; }
+
+        /* table {
+          width: 100%;
+          border:2px solid black;
+          border-collapse: collapse;
+        }
+        th {
+          width: auto;
+          border:2px solid black;
+          text-align: left;
+          font-size: 13px;
+        }
+        tr {
+          width: auto;
+          border:2px solid black;
+          text-align: left;
+          font-size: 12px;
+        }
+        td {
+           border:2px solid black;
+         } */
+        @page {
+          margin: 20px;
+          margin-left: 20px;
+          margin-right: 20px;
+        }
+        /* ==== GRID SYSTEM ==== */
+        .row {
+          position: relative;
+          width: 100%;
+        }
+        .row [class^="col"] {
+          float: left;
+        }
+        .col-3{
+          width: 25%;
+        }
+        .col-4{
+          width: 33.33%;
+        }
+        .col-5{
+          width: 41.66%;
+        }
+        .col-6 {
+          width: 50%;
+        }
+        .col-7 {
+          width: 58.33%;
+        }
+        .col-8{
+          width: 66.66%;
+        }
+        .col-9 {
+          width: 75%;
+        }
+        .col-12 {
+          width: 100%;
+        }
+        .row::after {
+        	content: "";
+        	display: table;
+        	clear: both;
+        }
+    </style>
+</head>
+<body>
+  <div id="folha-a4" class="folha a4_vertical">
+    <div class="row" style="font-size: 13px;">
+      <div class="col-8">
+        <br>
+        <img width="80px" height="40px" src="./atcsaopaulo.png">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <hr style="height:2px; width:100%; border-width:0; color:black; background-color:black">
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-8">
+      </div>
+      <div class="col-4">
+        <strong>Data Emissao: </strong><%= pedido.data %>
+      </div>
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-8">
+        <strong>Comprador: </strong><%=pedido.comprador ? pedido.comprador.nome : '' %>
+      </div>
+      <div class="col-4">
+        <strong>Cond.Pagamento: </strong><%=pedido.condicaopagamento ? pedido.condicaopagamento.nome : '' %>
+      </div>
+    </div>
+    <% if (pedido.tipoFrete) { %>
+      <div class="row" style="font-size: 13px;">
+        <div class="col-8">
+          <strong>Tipo de Frete: </strong><%=pedido.tipoFrete%>
+        </div>
+      </div>
+    <% } %>
+    <div class="row">
+      <hr style="height:2px; width:100%; border-width:0; color:black; background-color:black">
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-8">
+        <strong>Empresa: </strong><%= pedido.empresa.nome %>
+      </div>
+      <div class="col-4">
+        <strong>Telefone: </strong><%= pedido.empresa.fone %>
+      </div>
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-8">
+        <strong>CNPJ/CPF: </strong><%= pedido.empresa.cnpj %>
+      </div>
+      <div class="col-4">
+        <strong>IE: </strong><%= pedido.empresa.inscricaoEstadual %>
+      </div>
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-8">
+        <strong>Endereço: </strong><%= pedido.empresa.endereco %>
+      </div>
+      <div class="col-4">
+        <strong>Bairro: </strong><%= pedido.empresa.bairro %>
+      </div>
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-4">
+        <strong>Cidade: </strong><%= pedido.empresa.cidade %>
+      </div>
+      <div class="col-4">
+        <strong>Estado: </strong><%= pedido.empresa.estado %>
+      </div>
+      <div class="col-4">
+        <strong>CEP: </strong><%= pedido.empresa.cep %>
+      </div>
+    </div>
+    <div class="row">
+      <hr style="height:2px; width:100%; border-width:0; color:black; background-color:black">
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-8">
+        <strong>Fornecedor: </strong><%= pedido.fornecedor.nome %>
+      </div>
+      <div class="col-4">
+        <strong>Telefone: </strong><%= pedido.fornecedor.fone %>
+      </div>
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-8">
+        <strong>CNPJ/CPF: </strong><%= pedido.fornecedor.cnpj %>
+      </div>
+      <div class="col-4">
+        <strong>IE: </strong><%= pedido.fornecedor.inscricaoEstadual %>
+      </div>
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-8">
+        <strong>Endereço: </strong><%= pedido.fornecedor.endereco %>
+      </div>
+      <div class="col-4">
+        <strong>Bairro: </strong><%= pedido.fornecedor.bairro %>
+      </div>
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-4">
+        <strong>Cidade: </strong><%= pedido.fornecedor.cidade %>
+      </div>
+      <div class="col-4">
+        <strong>Estado: </strong><%= pedido.fornecedor.estado %>
+      </div>
+      <div class="col-4">
+        <strong>CEP: </strong><%= pedido.fornecedor.cep %>
+      </div>
+    </div>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-12">
+        <strong>Email: </strong><%= pedido.fornecedor.email %>
+    </div>
+    <div class="row">
+      <hr style="height:2px; width:100%; border-width:0; color:black; background-color:black">
+    </div>
+    <% if (pedido.transportadora) { %>
+      <div class="row" style="font-size: 13px;">
+        <div class="col-8">
+          <strong>Transportadora: </strong><%= pedido.transportadora.nome %>
+        </div>
+        <div class="col-4">
+          <strong>Telefone: </strong><%= pedido.transportadora.fone %>
+        </div>
+      </div>
+      <div class="row" style="font-size: 13px;">
+        <div class="col-8">
+          <strong>CNPJ/CPF: </strong><%= pedido.transportadora.cnpj %>
+        </div>
+        <div class="col-4">
+          <strong>IE: </strong><%= pedido.transportadora.inscricaoEstadual %>
+        </div>
+      </div>
+      <div class="row" style="font-size: 13px;">
+        <div class="col-8">
+          <strong>Endereço: </strong><%= pedido.transportadora.endereco %>
+        </div>
+        <div class="col-4">
+          <strong>Bairro: </strong><%= pedido.transportadora.bairro %>
+        </div>
+      </div>
+      <div class="row" style="font-size: 13px;">
+        <div class="col-4">
+          <strong>Cidade: </strong><%= pedido.transportadora.cidade %>
+        </div>
+        <div class="col-4">
+          <strong>Estado: </strong><%= pedido.transportadora.estado %>
+        </div>
+        <div class="col-4">
+          <strong>CEP: </strong><%= pedido.transportadora.cep %>
+        </div>
+      </div>
+      <div class="row">
+        <hr style="height:2px; width:100%; border-width:0; color:black; background-color:black">
+      </div>
+    <% } %>
+    <div class="row" style="font-size: 13px;">
+      <div class="col-12">
+        <strong>Observação: </strong>
+          <% var strObservacao = pedido.observacao %>
+          <% while (strObservacao) { %>
+            <% var index = strObservacao.search(/\n/g) %>
+            <% if (index != -1) { %>
+              <%= strObservacao.substring(0,index) %>
+              <br>
+              <% strObservacao = strObservacao.substring(index+1) %>
+            <% } else { %>
+              <%= strObservacao %>
+              <% strObservacao = '' %>
+            <% } %>
+          <% } %>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <table class="table table-bordered border-dark">
+        <tr>
+          <th>Nome</th>
+          <th>Código</th>
+          <th>Cód.Fornecedor</th>
+          <th>Cód.Fabricante</th>
+          <th style="text-align:center">U.M.</th>
+          <th style="text-align:center">Qtd.</th>
+          <th style="text-align:right">Preço</th>
+          <th style="text-align:right">Desc.</th>
+          <th style="text-align:center">Ipi</th>
+          <th style="text-align:right">Total</th>
+        </tr>
+        <%for(var id = 0;id < pedido.produtos.length; id++) { %>
+          <tr>
+            <td><%=pedido.produtos[id].produto.nome %></td>
+            <td><%=pedido.produtos[id].produto.codigo %></td>
+            <td><%=pedido.produtos[id].produtofornecedor.codigo %></td>
+            <td><%=pedido.produtos[id].produto.codigoFabricante %></td>
+            <td style="text-align:center"><%= pedido.produtos[id].produtofornecedor.unidadeMedida%></td>
+            <td style="text-align:center"><%= pedido.produtos[id].produtofornecedor.quantidadePendente%></td>
+            <td style="text-align:right"><%= pedido.produtos[id].produtofornecedor.preco%></td>
+            <td style="text-align:right"><%= pedido.produtos[id].produtofornecedor.desconto%></td>
+            <td style="text-align:center"><%= pedido.produtos[id].ipi%></td>
+            <td style="text-align:right"><%= pedido.produtos[id].total%></td>
+          </tr>
+        <%}%>
+      </table>
+    </div>
+    <br>
+    <div class="row">
+      <table class="table table-bordered border-dark">
+        <tr>
+          <th style="text-align:center">Qtd.Itens</th>
+          <th style="text-align:center">Vlr.Produtos</th>
+          <th style="text-align:center">Vlr.Ipi</th>
+          <th style="text-align:center">Vlr.Frete</th>
+          <th style="text-align:center">Vlr.Total</th>
+        </tr>
+        <tr>
+          <td style="text-align:center"><%=pedido.produtos.length %></td>
+          <td style="text-align:center">R$ <%=pedido.valorTotal %></td>
+          <td style="text-align:center">R$ <%=pedido.ipiTotal%></td>
+          <td style="text-align:center">R$ <%=pedido.freteTotal %></td>
+          <td style="text-align:center">R$ <%=pedido.total %></td>
+        </tr>
+      </table>
+    </div>
+    </div>
+  </body>
+</html>
